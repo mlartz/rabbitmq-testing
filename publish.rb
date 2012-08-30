@@ -82,7 +82,7 @@ EventMachine.run do
     # Set publisher confirms
     channel.confirm_select
     channel.on_ack do |basic_ack|
-      acked_count += 1
+      acked_count = basic_ack.delivery_tag
       if options[:count] && acked_count >= options[:count] 
         connection.close { EM.stop }
       end
@@ -90,8 +90,8 @@ EventMachine.run do
     
     timer = EventMachine::PeriodicTimer.new(options[:seconds]) do
       sent_count += 1
-      exchange.publish(sent_count.to_s + message_content, :routing_key => options[:routing_key])
-      puts "#{options[:exchange]}:#{options[:routing_key]}:#{sent_count}#{message_content}" if options[:verbose]
+      exchange.publish(message_content, :routing_key => options[:routing_key])
+      puts "#{options[:exchange]}:#{options[:routing_key]}:#{message_content}" if options[:verbose]
       timer.cancel if options[:count] && sent_count >= options[:count]
     end
 
