@@ -53,7 +53,7 @@ EventMachine.run do
                end
 
     channel.queue(options[:queue], :auto_delete => true).bind(exchange, :routing_key => options[:binding]).subscribe do |header, payload|
-      puts "#{options[:exchange]}:#{header.routing_key}:#{payload}"
+      puts "#{options[:exchange]}:#{header.routing_key}:#{payload.inspect}"
     end
   end
 end
