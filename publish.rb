@@ -111,6 +111,6 @@ end
 now = Time.now
 delta_time = now - start_time
 puts "Published/Acked #{sent_count}/#{acked_count} messages of #{message_content.length} bytes in #{delta_time} seconds (#{sent_count/delta_time}/#{acked_count/delta_time} msgs/sec)"
-
+puts "#{acked_count}:#{message_content.length}:#{delta_time}"
 
 
