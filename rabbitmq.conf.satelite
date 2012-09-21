@@ -1,0 +1,29 @@
+[
+ {rabbitmq_federation,
+   [
+    {exchanges, [[ {exchange,     "fed-hub"},
+                   {virtual_host, "/"},
+                   {type,         "topic"},
+                   {durable,      true},
+                   {auto_delete,  false},
+                   {internal,     false},
+                   {upstream_set, "upstreams"} ]]
+    },
+    {upstream_sets, [ {"upstreams", [[ {connection, "upstream-server"},
+                                       {exchange,   "fed-hub"},
+                                       {max_hops,   1} ]]
+                      } ]
+    },
+    {connections, [ {"upstream-server", [{host,            "ip-10-98-181-94"},
+                                         {virtual_host,    "/"},
+                                         {prefetch_count,  1000},
+                                         {reconnect_delay, 5},
+                                         {heartbeat,       1}
+                                        ]
+                    } ]
+    },
+    {local_username, "guest"},
+    {local_nodename, "satelite"}
+   ]
+ }
+].
